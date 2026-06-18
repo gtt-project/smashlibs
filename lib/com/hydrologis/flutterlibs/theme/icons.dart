@@ -151,12 +151,42 @@ class SmashIcons {
 }
 
 IconData getSmashIcon(String key) {
-  var iconData = MdiIcons.fromString(key);
+  var iconData = mdiIconFromString(key);
   if (iconData == null) {
     return MdiIcons.mapMarker;
   }
   return iconData;
 }
+
+/// flutter_material_design_icons has no name->IconData lookup like the old
+/// material_design_icons_flutter package did, so it is rebuilt here using
+/// the same camelCase keys used throughout this app (eg. 'wheelchairAccessibility').
+Map<String, IconData>? _mdiIconsByName;
+
+Map<String, IconData> get _mdiIconsByNameMap {
+  var map = _mdiIconsByName;
+  if (map == null) {
+    map = <String, IconData>{};
+    for (var icon in MdiIcons.values) {
+      var name = MdiIcons.maybeMetadataOf(icon)?.name;
+      if (name != null) {
+        var parts = name.split('-');
+        var camelCase = parts.first +
+            parts
+                .skip(1)
+                .map((p) => p.isEmpty ? '' : p[0].toUpperCase() + p.substring(1))
+                .join();
+        map[camelCase] = icon;
+      }
+    }
+    _mdiIconsByName = map;
+  }
+  return map;
+}
+
+IconData? mdiIconFromString(String name) => _mdiIconsByNameMap[name];
+
+List<String> mdiIconNames() => _mdiIconsByNameMap.keys.toList();
 
 /// The notes properties page.
 class IconsWidget extends StatefulWidget {
@@ -180,8 +210,8 @@ class IconsWidgetState extends State<IconsWidget> {
             SmashPreferencesKeys.KEY_ICONS_LIST, DEFAULT_NOTES_ICONDATA) ??
         <String>[]);
 
-    MdiIcons.getNames().forEach((name) {
-      _completeList.add([name, MdiIcons.fromString(name)]);
+    mdiIconNames().forEach((name) {
+      _completeList.add([name, mdiIconFromString(name)]);
     });
     _visualizeList = []..addAll(_completeList);
     super.initState();

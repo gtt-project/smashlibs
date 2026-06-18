@@ -8,7 +8,7 @@ import 'package:smashlibs/smashlibs.dart';
 import 'package:dart_hydrologis_utils/dart_hydrologis_utils.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:after_layout/after_layout.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 class DemoAppFormHelper extends AFormhelper {
   late SmashSection section;

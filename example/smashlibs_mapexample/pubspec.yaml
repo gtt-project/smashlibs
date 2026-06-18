@@ -91,6 +91,7 @@ flutter:
     - assets/gjson_polygons.json
     - assets/monaco.map
     - assets/ciclabile_peschiera_mantova.gpx
+    - assets/ciclabile_peschiera_mantova.sld
     - assets/testtiff.tif
     - assets/world.mbtiles
     - assets/orthos.gpkg
